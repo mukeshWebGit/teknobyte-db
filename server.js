@@ -56,7 +56,15 @@ app.get('/api/products/:id', (req, res) => {
   }
 }); */
 
+const __dirName = path.resolve();
+app.use(express.static(path.join(__dirName, '/frontend/build')));
+app.get('*', (req, res) => 
+res.sendFile(path.join(__dirName, '/frontend/build/index.html'))
+);
 
+app.use((err, req, res, next) => {
+  res.status(500).send({ message: err.message });
+});
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
